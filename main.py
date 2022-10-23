@@ -1,23 +1,20 @@
-"""Kanye West will tell you what he thinks"""
-import json
-import random
+"""Random quotes from different characters on F.R.I.E.N.D.S."""
 from tkinter import Tk, Canvas, PhotoImage, Button
 import requests
 
 
 def get_quote():
-    """Get quotes from Kanye West"""
-    response = requests.get(url="https://api.kanye.rest")
+    """Get quotes from F.R.I.E.N.D.S."""
+    response = requests.get(url="https://friends-quotes-api.herokuapp.com/quotes/random")
     response.raise_for_status()
-
     data = response.json()
     quote = data["quote"]
-
-    canvas.itemconfig(quote_text, text=quote)
+    char = data["character"]
+    canvas.itemconfig(quote_text, text=f"{quote}\n\n- {char}")
 
 
 window = Tk()
-window.title("Kanye Says...")
+window.title("Quotes from F.R.I.E.N.D.S.")
 window.config(padx=50, pady=50, bg="white")
 
 canvas = Canvas(width=300, height=414, bg="white", highlightbackground="white")
@@ -30,11 +27,11 @@ quote_text = canvas.create_text(150, 200,
                                 fill="black")
 canvas.grid(row=0, column=0)
 
-kanye_img = PhotoImage(file="kanye.png")
-kanye_button = Button(image=kanye_img,
-                      highlightcolor="white",
-                      highlightbackground="white",
-                      command=get_quote)
-kanye_button.grid(row=1, column=0)
+logo_img = PhotoImage(file="logo.png")
+logo_btn = Button(image=logo_img,
+                  highlightcolor="white",
+                  highlightbackground="white",
+                  command=get_quote)
+logo_btn.grid(row=1, column=0)
 
 window.mainloop()
